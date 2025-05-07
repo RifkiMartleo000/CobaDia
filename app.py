@@ -40,28 +40,8 @@ if option == "Beranda":
 elif option == "Periksa Retina":
     st.header("Periksa Retina")
     
-    # Generate sample data
     st.subheader("Contoh Data")
-    data_size = st.slider("Jumlah data", 5, 100, 20)
     
-    # Create sample dataframe
-    data = pd.DataFrame({
-        'Tanggal': pd.date_range(start='2023-01-01', periods=data_size),
-        'Nilai': np.random.randn(data_size).cumsum(),
-        'Kategori': np.random.choice(['A', 'B', 'C'], size=data_size)
-    })
-    
-    st.dataframe(data)
-    
-    # Download button
-    csv = data.to_csv(index=False)
-    st.download_button(
-        label="Unduh data sebagai CSV",
-        data=csv,
-        file_name="data_sample.csv",
-        mime="text/csv"
-    )
-
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
 
     if uploaded_file is not None:
