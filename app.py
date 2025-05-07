@@ -94,17 +94,7 @@ else:  # About page
     
     """)
     
-    # Contact form
-    st.subheader("Hubungi Kami")
-    contact_form = st.form("contact_form")
-    name = contact_form.text_input("Nama")
-    email = contact_form.text_input("Email")
-    message = contact_form.text_area("Pesan")
-    submit = contact_form.form_submit_button("Kirim")
-    
-    if submit:
-        st.success("Pesan Anda telah dikirim! (Ini hanya simulasi, tidak ada pesan yang benar-benar dikirim)")
-
+   
 # Footer
 st.markdown("---")
-st.markdown("Dibuat dengan ❤️ menggunakan Streamlit")
+st.markdown("drchecker.web@2025")
