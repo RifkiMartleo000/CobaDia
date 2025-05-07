@@ -85,13 +85,12 @@ elif option == "Hasil Pemeriksaan":
 
 else:  # About page
     st.header("Tim Kami")
-    st.subheader("Visualisasi Custom dengan Matplotlib")
     st.write("""
     ### El STM
     
-    #### Fayzul Haq Mahardika Basunjaya
-    #### Kevin Surya Prayoga Wibowo
-    #### Rifki Martleo Alfiansyah
+    - Fayzul Haq Mahardika Basunjaya
+    - Kevin Surya Prayoga Wibowo
+    - Rifki Martleo Alfiansyah
     
     """)
     
