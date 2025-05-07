@@ -36,6 +36,8 @@ if option == "Beranda":
         st.balloons()
         st.write("Terima kasih telah mengklik tombol!")
 
+    if uploaded_file = st.file_uploader("Pilih file gambar", type=["png", "jpg", "jpeg"])
+
 elif option == "Data":
     st.header("Data")
     
