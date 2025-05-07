@@ -5,13 +5,13 @@ from PIL import Image
 
 # Set page title and configuration
 st.set_page_config(
-    page_title="Diathyon",
+    page_title="DRChecker",
     page_icon="📊",
     layout="wide",
 )
 
 # Title and description
-st.title("Diathyon")
+st.title("DRChecker")
 st.markdown("Website Pendeteksi Diabetic Retinopathy")
 
 # Sidebar
