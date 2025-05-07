@@ -88,9 +88,9 @@ else:  # About page
     st.write("""
     ### El STM
     
-    #Fayzul Haq Mahardika Basunjaya
-    #Kevin Surya Prayoga Wibowo
-    #Rifki Martleo Alfiansyah
+    # Fayzul Haq Mahardika Basunjaya
+    # Kevin Surya Prayoga Wibowo
+    # Rifki Martleo Alfiansyah
     
     """)
     
