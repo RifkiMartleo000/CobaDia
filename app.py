@@ -86,16 +86,12 @@ elif option == "Hasil Pemeriksaan":
 else:  # About page
     st.header("Tim Kami")
     st.write("""
-    ### Aplikasi Web Streamlit
+    ### El STM
     
-    Ini adalah aplikasi web sederhana yang dibuat menggunakan Streamlit.
+    Fayzul Haq Mahardika Basunjaya
+    Kevin Surya Prayoga Wibowo
+    Rifki Martleo Alfiansyah
     
-    **Fitur:**
-    - Visualisasi data interaktif
-    - Analisis data sederhana
-    - Antarmuka pengguna yang ramah
-    
-    Untuk informasi lebih lanjut, kunjungi [Streamlit](https://streamlit.io).
     """)
     
     # Contact form
