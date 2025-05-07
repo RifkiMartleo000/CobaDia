@@ -7,7 +7,8 @@ from PIL import Image
 st.set_page_config(
     page_title="Aplikasi Web Streamlit Sederhana",
     page_icon="📊",
-    layout="wide"
+    layout="wide",
+    layout="centered"
 )
 
 # Title and description
