@@ -43,7 +43,6 @@ elif option == "Periksa Retina":
     st.subheader("Contoh Data")
     
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
-
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
         st.success("✅ Gambar berhasil diunggah!")
