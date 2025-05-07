@@ -18,7 +18,7 @@ st.markdown("Aplikasi web sederhana menggunakan Streamlit untuk visualisasi data
 st.sidebar.header("Pengaturan")
 option = st.sidebar.selectbox(
     "Pilih Halaman",
-    ["Beranda", "Periksa Retina", "Visualisasi", "Tentang"]
+    ["Beranda", "Periksa Retina", "Hasil Pemeriksaan", "Tim Kami"]
 )
 
 # Main content based on selected page
@@ -50,8 +50,8 @@ elif option == "Periksa Retina":
     else:
         st.info("Silakan unggah gambar dengan format .png, .jpg, atau .jpeg.")
 
-elif option == "Visualisasi":
-    st.header("Visualisasi")
+elif option == "Hasil Pemeriksaan":
+    st.header("Hasil Pemeriksaan")
     
     # Generate random data for visualization
     chart_data = pd.DataFrame(
@@ -84,7 +84,7 @@ elif option == "Visualisasi":
     st.pyplot(fig)
 
 else:  # About page
-    st.header("Tentang")
+    st.header("Tim Kami")
     st.write("""
     ### Aplikasi Web Streamlit
     
