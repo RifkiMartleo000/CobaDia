@@ -1,9 +1,10 @@
-import lite
+lite
 tensorflow
 keras
 layers
 numpy
-pandasrandom
+pandas
+random
 shutil
 matplotlib
 imread
