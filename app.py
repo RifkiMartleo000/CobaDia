@@ -18,7 +18,7 @@ st.markdown("Aplikasi web sederhana menggunakan Streamlit untuk visualisasi data
 st.sidebar.header("Pengaturan")
 option = st.sidebar.selectbox(
     "Pilih Halaman",
-    ["Beranda", "Data", "Visualisasi", "Tentang"]
+    ["Beranda", "Periksa Retina", "Visualisasi", "Tentang"]
 )
 
 # Main content based on selected page
