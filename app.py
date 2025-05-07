@@ -5,14 +5,14 @@ from PIL import Image
 
 # Set page title and configuration
 st.set_page_config(
-    page_title="Website Pendeteksi Diabetic Retinopathy",
+    page_title="DIathyon",
     page_icon="📊",
     layout="wide",
 )
 
 # Title and description
-st.title("Aplikasi Web Streamlit Sederhana")
-st.markdown("Aplikasi web sederhana menggunakan Streamlit untuk visualisasi data")
+st.title("Diathyon")
+st.markdown("Website Pendeteksi Diabetic Retinopathy")
 
 # Sidebar
 st.sidebar.header("Pengaturan")
