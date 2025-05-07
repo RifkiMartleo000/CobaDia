@@ -5,7 +5,7 @@ from PIL import Image
 
 # Set page title and configuration
 st.set_page_config(
-    page_title="DIathyon",
+    page_title="Diathyon",
     page_icon="📊",
     layout="wide",
 )
