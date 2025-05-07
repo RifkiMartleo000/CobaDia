@@ -6,7 +6,7 @@ numpy
 pandas
 random
 shutil
-matplotlib
+matplotlib.pyplot as plt
 imread
 ImageDataGenerator
 categorical_accuracy
