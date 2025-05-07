@@ -1,5 +1,5 @@
-lite
 tensorflow
+lite
 keras
 layers
 numpy
