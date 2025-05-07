@@ -38,7 +38,7 @@ if option == "Beranda":
         st.write("Terima kasih telah mengklik tombol!")
     
 elif option == "Periksa Retina":
-    st.header("Data")
+    st.header("Periksa Retina")
     
     # Generate sample data
     st.subheader("Contoh Data")
