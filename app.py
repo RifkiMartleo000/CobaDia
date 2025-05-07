@@ -36,7 +36,11 @@ if option == "Beranda":
         st.balloons()
         st.write("Terima kasih telah mengklik tombol!")
 
-    if uploaded_file = st.file_uploader("Pilih file gambar", type=["png", "jpg", "jpeg"])
+    if uploaded_file is not None:
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Gambar yang Anda unggah", use_column_width=True)
+    else:
+        st.info("Silakan unggah file gambar (.png, .jpg, atau .jpeg)")
 
 elif option == "Data":
     st.header("Data")
