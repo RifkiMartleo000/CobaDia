@@ -12,3 +12,4 @@ ImageDataGenerator
 categorical_accuracy
 train_test_split
 Image
+PIL
