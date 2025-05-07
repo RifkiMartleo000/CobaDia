@@ -5,7 +5,7 @@ layers
 numpy
 pandasrandom
 shutil
-matplotlib.pyplot
+matplotlib
 imread
 ImageDataGenerator
 categorical_accuracy
