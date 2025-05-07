@@ -5,7 +5,7 @@ from PIL import Image
 
 # Set page title and configuration
 st.set_page_config(
-    page_title="Aplikasi Web Streamlit Sederhana",
+    page_title="Website Pendeteksi Diabetic Retinopathy",
     page_icon="📊",
     layout="wide",
 )
