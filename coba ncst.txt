@@ -13,6 +13,6 @@ categorical_accuracy
 train_test_split
 Image
 PIL
-pillow
+Pillow
 streamlit
 model_from_json
