@@ -4,7 +4,6 @@ import numpy as np
 from PIL import Image
 
 
-
 # ======== Konfigurasi Halaman ========
 st.set_page_config(
     page_title="DRChecker",
@@ -110,7 +109,6 @@ elif option == "Periksa Retina":
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
-        st.session_state['image'] = image  # Simpan ke session
         st.success("✅ Gambar berhasil diunggah!")
         st.image(image, caption="Gambar yang Anda unggah", use_column_width=True)
     else:
@@ -119,46 +117,20 @@ elif option == "Periksa Retina":
 elif option == "Hasil Pemeriksaan":
     st.markdown("<h1> Hasil Pemeriksaan </h1>", unsafe_allow_html=True)
 
-    # Fungsi untuk memuat model
-    @st.cache_resource
-    def load_model():
-        from keras.models import model_from_json
-        with open("64x3-CNN.json", "r") as json_file:
-            loaded_model_json = json_file.read()
-        model = model_from_json(loaded_model_json)
-        model.load_weights("64x3-CNN.h5")
-        return model
-
-    # Fungsi untuk preprocessing gambar
-    def preprocess_image(img, target_size=(64, 64)):
-        from keras.preprocessing import image as keras_image
-        import numpy as np
-
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-
-        img = img.resize(target_size)
-        img_array = keras_image.img_to_array(img)
-        img_array = np.expand_dims(img_array, axis=0)
-        img_array /= 255.0
-        return img_array
-
-    # Cek apakah gambar sudah diunggah sebelumnya
-    if 'image' not in st.session_state:
+    if "image" not in st.session_state:
         st.warning("Silakan unggah gambar terlebih dahulu di halaman 'Periksa Retina'.")
     else:
-        image = st.session_state['image']
+        image = st.session_state["image"]
         st.image(image, caption="Gambar yang akan diprediksi", use_column_width=True)
 
         if st.button("🔍 Prediksi"):
-            model = load_model()
-            processed = preprocess_image(image, target_size=(224, 224))
+            processed = preprocess_image(image)
             prediction = model.predict(processed)
             label_idx = np.argmax(prediction)
             labels = ["Normal", "Mild", "Moderate", "Severe", "Proliferative DR"]
+            st.success(f"Hasil Prediksi: {labels[label_idx]}")
+            st.markdown(f"Probabilitas: {prediction[0][label_idx]:.2%}")
 
-            st.success(f"Hasil Prediksi: **{labels[label_idx]}**")
-            st.markdown(f"<p>Probabilitas: <strong>{prediction[0][label_idx]:.2%}</strong></p>", unsafe_allow_html=True)
 
 elif option == "Tim Kami":
     st.markdown("<h1> Tim Kami </h1>", unsafe_allow_html=True)
