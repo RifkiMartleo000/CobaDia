@@ -1,8 +1,6 @@
-tensorflow
 lite
 keras
 layers
-numpy
 pandas
 random
 shutil
@@ -14,6 +12,11 @@ train_test_split
 Image
 image
 PIL
-Pillow
 streamlit
 model_from_json
+streamlit==1.27.0
+pandas==2.1.0
+numpy==1.25.2
+pillow==10.0.0
+tensorflow==2.13.0
+opencv-python-headless==4.8.0.76
