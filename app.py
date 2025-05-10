@@ -112,7 +112,11 @@ elif option == "Periksa Retina":
         st.success("✅ Gambar berhasil diunggah!")
         st.image(image, caption="Gambar yang Anda unggah", use_column_width=True)
     else:
-        st.info("Silakan unggah gambar dengan format .png, .jpg, atau .jpeg.")
+        if "image" in st.session_state:
+            image = st.session_state["image"]
+            st.image(image, caption="Gambar yang sebelumnya diunggah", use_column_width=True)
+        else:
+            st.info("Silakan unggah gambar dengan format .png, .jpg, atau .jpeg.")
 
 elif option == "Hasil Pemeriksaan":
     st.markdown("<h1> Hasil Pemeriksaan </h1>", unsafe_allow_html=True)
