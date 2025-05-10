@@ -6,7 +6,7 @@ from PIL import Image
 # Set page title and configuration
 st.set_page_config(
     page_title="DRChecker",
-    page_icon="📊",
+    page_icon="👁",
     layout="wide",
 )
 
