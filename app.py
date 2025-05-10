@@ -29,14 +29,14 @@ def set_theme_and_font(theme, font_px):
 
     elif theme == "Gelap":
         bg_color = "#000000"
-        text_color = "#424242"
-        button_bg_color = "#ffffff"
+        text_color = "#ffffff"
+        button_bg_color = "#424242"
         button_text_color = "#000000"
 
     else:  # Default
-        bg_color = "#3d8000"
+        bg_color = "#5dc200"
         text_color = "#000000"
-        button_bg_color = "#007ACC"
+        button_bg_color = "#3d8000"
         button_text_color = "#ffffff"
     
     st.markdown(f"""
