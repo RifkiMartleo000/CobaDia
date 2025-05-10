@@ -106,7 +106,7 @@ if option == "Beranda":
 
     name = st.text_input("Masukkan nama Anda")
     if name:
-        st.markdown(f"<p style='color:{text_color}; font-size:{font_size}px;'>Halo, {name}!")
+        st.markdown(f"<p style='color:{text_color}; font-size:{font_size}px;'>Halo, {name}!</p>", unsafe_allow_html=True)
         
     if st.button("Selesai"):
         st.markdown(f"<p style='color:{text_color}; font-size:{font_size}px;'>Silahkan masuk ke menu Periksa Retina pada bagian 'Pilih Halaman'</p>", unsafe_allow_html=True)
@@ -167,5 +167,5 @@ else:
     """)
 
 # ======== Footer ========
-st.markdown(f"<p style='color:{text_color};'>---", unsafe_allow_html=True)
+st.markdown(f"<p style='color:{text_color};'>---</p>", unsafe_allow_html=True)
 st.markdown("drchecker.web@2025")
