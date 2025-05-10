@@ -169,12 +169,11 @@ else:
 
 # ======== Footer ========
 st.markdown(f"""
-    <hr style='
-        height: 2px;
-        background-color: {text_color};
-        border: none;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    '/>
+    <div style='
+        height:2px;
+        width:100%;
+        background-color:{text_color};
+        margin:20px 0;
+    '></div>
 """, unsafe_allow_html=True)
 st.markdown("drchecker.web@2025")
