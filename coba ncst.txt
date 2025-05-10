@@ -1,3 +1,4 @@
+python-3.11
 lite
 keras
 layers
@@ -14,13 +15,16 @@ image
 PIL
 streamlit
 model_from_json
-streamlit==1.27.0
-pandas==2.1.0
-numpy==1.25.2
-pillow==10.0.0
-tensorflow
+streamlit==1.38.0
+pandas==2.2.3
+numpy==1.26.4
+pillow==10.4.0
+tensorflow-cpu==2.15.0
 tflite-runtime
 opencv-python-headless==4.8.0.76
 scikit-learn
 imageio
-python-3.11
+
+libblas-dev
+liblapack-dev
+gfortran
