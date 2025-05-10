@@ -2,45 +2,82 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
+import matplotlib.pyplot as plt
 
-# Set page title and configuration
+# ======== Konfigurasi Halaman ========
 st.set_page_config(
     page_title="DRChecker",
     page_icon="🔬",
     layout="wide",
 )
 
-# Title and description
+# ======== Kustomisasi Tema ========
+st.sidebar.header("🎨 Kustomisasi Tampilan")
+
+# Pilihan tema
+theme_choice = st.sidebar.selectbox("Pilih Mode Tema", ["Default", "Terang", "Gelap"])
+
+# Ukuran font
+font_size = st.sidebar.slider("Ukuran Font (px)", 12, 30, 16)
+
+# CSS injection
+def set_theme_and_font(theme, font_px):
+    if theme == "Terang":
+        bg_color = "#ffffff"
+        text_color = "#000000"
+    elif theme == "Gelap":
+        bg_color = "#0e1117"
+        text_color = "#ffffff"
+    else:  # Default
+        bg_color = "#f0f2f6"
+        text_color = "#31333F"
+    
+    st.markdown(f"""
+        <style>
+            body {{
+                background-color: {bg_color};
+                color: {text_color};
+                font-size: {font_px}px;
+            }}
+            .stApp {{
+                background-color: {bg_color};
+                color: {text_color};
+                font-size: {font_px}px;
+            }}
+            h1, h2, h3, h4, h5, h6 {{
+                color: {text_color};
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
+set_theme_and_font(theme_choice, font_size)
+
+# ======== Judul dan Navigasi ========
 st.title("DRChecker 👁")
 st.markdown("Website Pendeteksi Diabetic Retinopathy")
 
-# Sidebar
-st.sidebar.header("Pengaturan")
 option = st.sidebar.selectbox(
     "Pilih Halaman",
     ["Beranda", "Periksa Retina", "Hasil Pemeriksaan", "Tim Kami"]
 )
 
-# Main content based on selected page
+# ======== Konten Halaman ========
 if option == "Beranda":
     st.header("Beranda")
     st.write("Selamat datang di situs Pemeriksaan Diabetic Retinopathy")
     st.write("Gunakan sidebar untuk navigasi ke halaman lain.")
     
-    # Interactive elements
     name = st.text_input("Masukkan nama Anda")
     if name:
         st.write(f"Halo, {name}!")
     
-    # Button example
     if st.button("Klik Saya"):
         st.balloons()
         st.write("Terima kasih telah mengklik tombol!")
-    
+
 elif option == "Periksa Retina":
     st.header("Periksa Retina")
-    
-    st.subheader("Contoh Data")
+    st.subheader("Unggah Gambar Retina Anda")
     
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
     if uploaded_file is not None:
@@ -53,13 +90,11 @@ elif option == "Periksa Retina":
 elif option == "Hasil Pemeriksaan":
     st.header("Hasil Pemeriksaan")
     
-    # Generate random data for visualization
     chart_data = pd.DataFrame(
         np.random.randn(20, 3),
         columns=['A', 'B', 'C']
     )
     
-    # Show different visualization options
     viz_type = st.radio(
         "Pilih jenis visualisasi",
         ["Line Chart", "Bar Chart", "Area Chart"]
@@ -72,7 +107,6 @@ elif option == "Hasil Pemeriksaan":
     else:
         st.area_chart(chart_data)
     
-    # Custom matplotlib figure
     st.subheader("Visualisasi Custom dengan Matplotlib")
     fig, ax = plt.subplots()
     ax.scatter(chart_data.index, chart_data['A'], color='red', label='A')
@@ -83,18 +117,16 @@ elif option == "Hasil Pemeriksaan":
     ax.set_ylabel("Nilai")
     st.pyplot(fig)
 
-else:  # About page
+else:
     st.header("Tim Kami")
     st.write("""
     ### El STM
-    
-    - Fayzul Haq Mahardika Basunjaya
-    - Kevin Surya Prayoga Wibowo
-    - Rifki Martleo Alfiansyah
-    
+
+    - Anggota 1
+    - Anggota 2
+    - Anggota 3
     """)
-    
-   
-# Footer
+
+# ======== Footer ========
 st.markdown("---")
 st.markdown("drchecker.web@2025")
