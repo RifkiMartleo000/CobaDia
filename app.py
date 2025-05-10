@@ -80,19 +80,19 @@ option = st.sidebar.selectbox(
 
 # ======== Konten Halaman ========
 if option == "Beranda":
-    <h1> Beranda </h1>
-    <p> Selamat datang di situs Pemeriksaan Diabetic Retinopathy </p>
-    
+    st.markdown("<h1>Beranda</h1>", unsafe_allow_html=True)
+    st.markdown("<p>Selamat datang di situs Pemeriksaan Diabetic Retinopathy</p>", unsafe_allow_html=True)
+
     name = st.text_input("Masukkan nama Anda")
     if name:
         st.write(f"Halo, {name}!")
-    
+
     if st.button("Selesai"):
-        st.write("Silahkan masuk ke menu Periksa Rentina pada bagian 'Pilih Halaman'")
+        st.write("Silahkan masuk ke menu Periksa Retina pada bagian 'Pilih Halaman'")
 
 elif option == "Periksa Retina":
-    <h1> Periksa Retina </h1>
-    <p> Unggah Gambar Retina Anda </p>
+    st.markdown("<h1> Periksa Retina </h1>", unsafe_allow_html=True)
+    st.markdown("<p> Unggah Gambar Retina Anda </p>", unsafe_allow_html=True)
     
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
     if uploaded_file is not None:
@@ -103,7 +103,7 @@ elif option == "Periksa Retina":
         st.info("Silakan unggah gambar dengan format .png, .jpg, atau .jpeg.")
 
 elif option == "Hasil Pemeriksaan":
-    <h1> Hasil Pemeriksaan </h1>
+    st.markdown("<h1> Hasil Pemeriksaan </h1>", unsafe_allow_html=True)
     
     chart_data = pd.DataFrame(
         np.random.randn(20, 3),
@@ -133,14 +133,14 @@ elif option == "Hasil Pemeriksaan":
     st.pyplot(fig)
 
 else:
-    <h1> Tim Kami </h1>
-    <h2> El STM </h2>
+    st.markdown("<h1> Tim Kami </h1>", unsafe_allow_html=True)
+    st.markdown("<h2> El STM </h2>", unsafe_allow_html=True)
 
-    <p>
+    st.markdown("<p>
     - Anggota 1
     - Anggota 2
     - Anggota 3
-    </p>
+    </p>", unsafe_allow_html=True)
 
 
 # ======== Footer ========
