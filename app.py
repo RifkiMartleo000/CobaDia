@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import tensorflow as tf
-from tensorflow.keras.models import model_from_json
-from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from PIL import Image
 import io
 import random
