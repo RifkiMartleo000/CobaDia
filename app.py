@@ -136,12 +136,13 @@ else:
     st.markdown("<h1> Tim Kami </h1>", unsafe_allow_html=True)
     st.markdown("<h2> El STM </h2>", unsafe_allow_html=True)
 
-    st.markdown("<p>
-    - Anggota 1
-    - Anggota 2
-    - Anggota 3
-    </p>", unsafe_allow_html=True)
+    st.markdown("""
+    ### Tim Kami
 
+    - Anggota 1  
+    - Anggota 2  
+    - Anggota 3
+    """)
 
 # ======== Footer ========
 st.markdown("---")
