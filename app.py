@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-from tensorflow.keras.models import model_from_json
-from tensorflow.keras.preprocessing import image as keras_image
+from keras.models import model_from_json
+from keras.preprocessing import image as keras_image
 
 
 # ======== Konfigurasi Halaman ========
