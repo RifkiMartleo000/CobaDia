@@ -39,46 +39,46 @@ def set_theme_and_font(theme, font_px):
         button_bg_color = "#3d8000"
         button_text_color = "#ffffff"
 
-st.markdown(f"""
-    <style>
-        body {{
-            background-color: {bg_color};
-            color: {text_color};
-            font-size: {font_px}px;
-        }}
-        .stApp {{
-            background-color: {bg_color};
-            color: {text_color};
-            font-size: {font_px}px;
-        }}
-        h1, h2, h3, h4, h5, h6, p, label {{
-            color: {text_color};
-            font-size: {font_px}px;
-        }}
-        label {{
-            font-weight: bold;
-        }}
-        input {{
-            background-color: #222;
-            color: white;
-        }}
-        div.stButton > button {{
-            background-color: {button_bg_color};
-            color: {button_text_color};
-            font-size: {font_px}px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            transition: 0.3s;
-        }}
-        div.stButton > button:hover {{
-            background-color: #45a049;
-            color: #ffffff;
-        }}
-    </style>
-""", unsafe_allow_html=True)
+    st.markdown(f"""
+        <style>
+            body {{
+                background-color: {bg_color};
+                color: {text_color};
+                font-size: {font_px}px;
+            }}
+            .stApp {{
+                background-color: {bg_color};
+                color: {text_color};
+                font-size: {font_px}px;
+            }}
+            h1, h2, h3, h4, h5, h6, p, label {{
+                color: {text_color};
+                font-size: {font_px}px;
+            }}
+            label {{
+                font-weight: bold;
+            }}
+            input {{
+                background-color: #222;
+                color: white;
+            }}
+            div.stButton > button {{
+                background-color: {button_bg_color};
+                color: {button_text_color};
+                font-size: {font_px}px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 8px;
+                transition: 0.3s;
+            }}
+            div.stButton > button:hover {{
+                background-color: #45a049;
+                color: #ffffff;
+            }}
+        </style>
+    """, unsafe_allow_html=True)
 
-return text_color
+    return text_color
 
 text_color = set_theme_and_font(theme_choice, font_size)
 
