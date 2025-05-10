@@ -24,17 +24,17 @@ def set_theme_and_font(theme, font_px):
     if theme == "Terang":
         bg_color = "#ffffff"
         text_color = "#000000"
-        button_bg_color = "#000000"
+        button_bg_color = "#929292"
         button_text_color = "#ffffff"
 
     elif theme == "Gelap":
         bg_color = "#000000"
-        text_color = "#ffffff"
+        text_color = "#424242"
         button_bg_color = "#ffffff"
         button_text_color = "#000000"
 
     else:  # Default
-        bg_color = "#d5ffae"
+        bg_color = "#3d8000"
         text_color = "#000000"
         button_bg_color = "#007ACC"
         button_text_color = "#ffffff"
