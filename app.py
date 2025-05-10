@@ -64,6 +64,13 @@ def set_theme_and_font(theme, font_px):
                 background-color: #222;   
                 color: white;             
             }}
+            div.stButton > button {{
+                background-color: {text_color};
+            color: {bg_color};
+            font-size: {font_size}px;
+            border-radius: 8px;
+            padding: 10px 20px;
+            }}
         </style>
     """, unsafe_allow_html=True)
 
