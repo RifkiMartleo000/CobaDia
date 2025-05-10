@@ -24,12 +24,20 @@ def set_theme_and_font(theme, font_px):
     if theme == "Terang":
         bg_color = "#ffffff"
         text_color = "#000000"
+        button_bg_color = "#000000"
+        button_text_color = "#ffffff"
+
     elif theme == "Gelap":
         bg_color = "#000000"
         text_color = "#ffffff"
+        button_bg_color = "#ffffff"
+        button_text_color = "#000000"
+
     else:  # Default
         bg_color = "#d5ffae"
         text_color = "#000000"
+        button_bg_color = "#007ACC"
+        button_text_color = "#ffffff"
     
     st.markdown(f"""
         <style>
@@ -65,12 +73,18 @@ def set_theme_and_font(theme, font_px):
                 color: white;             
             }}
             div.stButton > button {{
-                background-color: {text_color};
-            color: {bg_color};
-            font-size: {font_size}px;
-            border-radius: 8px;
-            padding: 10px 20px;
+                background-color: {button_bg_color};
+                color: {button_text_color};
+                font-size: {font_size}px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 8px;
+                transition: 0.3s;
             }}
+            div.stButton > button:hover {{
+                background-color: #45a049;
+                color: #ffffff;
+    }}
         </style>
     """, unsafe_allow_html=True)
 
