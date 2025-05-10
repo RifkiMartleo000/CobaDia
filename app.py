@@ -25,10 +25,10 @@ def set_theme_and_font(theme, font_px):
         bg_color = "#ffffff"
         text_color = "#000000"
     elif theme == "Gelap":
-        bg_color = "#0e1117"
+        bg_color = "#000000"
         text_color = "#ffffff"
     else:  # Default
-        bg_color = "#f0f2f6"
+        bg_color = "#122448"
         text_color = "#31333F"
     
     st.markdown(f"""
