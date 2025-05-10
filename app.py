@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-import matplotlib.pyplot as plt
 
 # ======== Konfigurasi Halaman ========
 st.set_page_config(
@@ -116,24 +115,6 @@ elif option == "Periksa Retina":
 
 elif option == "Hasil Pemeriksaan":
     st.markdown("<h1> Hasil Pemeriksaan </h1>", unsafe_allow_html=True)
-    chart_data = pd.DataFrame(np.random.randn(20, 3), columns=['A', 'B', 'C'])
-    viz_type = st.radio("Pilih jenis visualisasi", ["Line Chart", "Bar Chart", "Area Chart"])
-    if viz_type == "Line Chart":
-        st.line_chart(chart_data)
-    elif viz_type == "Bar Chart":
-        st.bar_chart(chart_data)
-    else:
-        st.area_chart(chart_data)
-
-    st.subheader("Visualisasi Custom dengan Matplotlib")
-    fig, ax = plt.subplots()
-    ax.scatter(chart_data.index, chart_data['A'], color='red', label='A')
-    ax.scatter(chart_data.index, chart_data['B'], color='blue', label='B')
-    ax.legend()
-    ax.set_title("Scatter Plot")
-    ax.set_xlabel("Index")
-    ax.set_ylabel("Nilai")
-    st.pyplot(fig)
 
 elif option == "Tim Kami":
     st.markdown("<h1> Tim Kami </h1>", unsafe_allow_html=True)
