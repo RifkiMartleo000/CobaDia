@@ -8,6 +8,11 @@ from PIL import Image
 import io
 import random
 import os
+import logging
+
+# ======== Konfigurasi Logging ========
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # ======== Konfigurasi Halaman ========
 st.set_page_config(
@@ -17,23 +22,37 @@ st.set_page_config(
 )
 
 # ======== Load Model (sekali saja) ========
-@st.cache_resource
+@st.cache_resource(allow_failure=True)
 def load_model():
-    with open("model.json", "r") as json_file:
-        loaded_model_json = json_file.read()
-    model = model_from_json(loaded_model_json)
-    model.load_weights("model.h5")
-    return model
+    try:
+        with open("model.json", "r") as json_file:
+            loaded_model_json = json_file.read()
+        model = model_from_json(loaded_model_json)
+        model.load_weights("model.h5")
+        logger.info("Model loaded successfully")
+        return model
+    except Exception as e:
+        logger.error(f"Error loading model: {str(e)}")
+        st.error(f"Gagal memuat model: {str(e)}")
+        return None
 
 model = load_model()
 
+if model is None:
+    st.stop()
+
 # ======== Fungsi Preprocessing Gambar ========
 def preprocess_image(image_bytes):
-    image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-    image = image.resize((224, 224))
-    image_array = img_to_array(image) / 255.0
-    image_array = np.expand_dims(image_array, axis=0)
-    return image_array
+    try:
+        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        image = image.resize((224, 224))
+        image_array = img_to_array(image) / 255.0
+        image_array = np.expand_dims(image_array, axis=0)
+        return image_array
+    except Exception as e:
+        logger.error(f"Error preprocessing image: {str(e)}")
+        st.error(f"Gagal memproses gambar: {str(e)}")
+        return None
 
 # ======== Fungsi Penjelasan Hasil ========
 def get_explanation(index):
@@ -49,7 +68,7 @@ def get_explanation(index):
 # ======== Inisialisasi Session State ========
 for key in ["image", "image_bytes", "filename", "name"]:
     if key not in st.session_state:
-        st.session_state[key] = None if "name" != key else ""
+        st.session_state[key] = None if key != "name" else ""
 
 # ======== Tema & Font ========
 st.sidebar.header("🎨 Kustomisasi Tampilan")
@@ -128,13 +147,17 @@ elif option == "Periksa Retina":
 
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
     if uploaded_file:
-        st.session_state["image_bytes"] = uploaded_file.getvalue()
-        st.session_state["filename"] = uploaded_file.name
-        image = Image.open(io.BytesIO(st.session_state["image_bytes"]))
-        st.session_state["image"] = image
+        try:
+            st.session_state["image_bytes"] = uploaded_file.getvalue()
+            st.session_state["filename"] = uploaded_file.name
+            image = Image.open(io.BytesIO(st.session_state["image_bytes"]))
+            st.session_state["image"] = image
 
-        st.success(f"✅ Gambar '{uploaded_file.name}' berhasil diunggah!")
-        st.image(image, caption=f"Gambar yang Anda unggah: {uploaded_file.name}", use_container_width=True)
+            st.success(f"✅ Gambar '{uploaded_file.name}' berhasil diunggah!")
+            st.image(image, caption=f"Gambar yang Anda unggah: {uploaded_file.name}", use_container_width=True)
+        except Exception as e:
+            logger.error(f"Error uploading image: {str(e)}")
+            st.error(f"Gagal mengunggah gambar: {str(e)}")
     elif st.session_state["image"]:
         st.info(f"Gambar yang telah diunggah sebelumnya: {st.session_state['filename']}")
         st.image(st.session_state["image"], caption=f"Gambar yang telah diunggah: {st.session_state['filename']}", use_container_width=True)
@@ -152,20 +175,27 @@ elif option == "Hasil Pemeriksaan":
 
         if st.button("🔍 Prediksi"):
             st.info("Memproses gambar...")
+            try:
+                # Preprocessing & prediksi
+                processed_image = preprocess_image(st.session_state["image_bytes"])
+                if processed_image is None:
+                    st.stop()
 
-            # Preprocessing & prediksi
-            processed_image = preprocess_image(st.session_state["image_bytes"])
-            preds = model.predict(processed_image)
-            label_idx = np.argmax(preds)
-            confidence = float(np.max(preds))
+                preds = model.predict(processed_image)
+                label_idx = np.argmax(preds)
+                confidence = float(np.max(preds))
 
-            labels = ["Normal", "Mild", "Moderate", "Severe", "Proliferative DR"]
-            st.success(f"Hasil Prediksi: {labels[label_idx]}")
-            st.markdown(f"Probabilitas: {confidence:.2%}")
-            st.markdown(f"""
-                ### Penjelasan:
-                {get_explanation(label_idx)}
-            """)
+                labels = ["Normal", "Mild", "Moderate", "Severe", "Proliferative DR"]
+                st.success(f"Hasil Prediksi: {labels[label_idx]}")
+                st.markdown(f"Probabilitas: {confidence:.2%}")
+                st.markdown(f"""
+                    ### Penjelasan:
+                    {get_explanation(label_idx)}
+                """)
+                logger.info(f"Prediction completed: {labels[label_idx]} with confidence {confidence:.2%}")
+            except Exception as e:
+                logger.error(f"Error during prediction: {str(e)}")
+                st.error(f"Gagal melakukan prediksi: {str(e)}")
 
 # ======== Halaman Tim Kami ========
 elif option == "Tim Kami":
