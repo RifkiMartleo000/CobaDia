@@ -70,9 +70,8 @@ if option == "Beranda":
     if name:
         st.write(f"Halo, {name}!")
     
-    if st.button("Klik Saya"):
-        st.balloons()
-        st.write("Terima kasih telah mengklik tombol!")
+    if st.button("Selesai"):
+        st.write("Silahkan masuk ke menu Periksa Rentina pada bagian "Pilih Halaman")
 
 elif option == "Periksa Retina":
     st.header("Periksa Retina")
