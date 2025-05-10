@@ -34,7 +34,7 @@ def set_theme_and_font(theme, font_px):
         button_text_color = "#000000"
 
     else:  # Default
-        bg_color = "#5dc200"
+        bg_color = "#85a26b"
         text_color = "#000000"
         button_bg_color = "#3d8000"
         button_text_color = "#ffffff"
