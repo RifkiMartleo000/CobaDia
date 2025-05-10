@@ -43,8 +43,26 @@ def set_theme_and_font(theme, font_px):
                 color: {text_color};
                 font-size: {font_px}px;
             }}
-            h1, h2, h3, h4, h5, h6 {{
+            h1 {{
                 color: {text_color};
+                font-size: 40px;
+            }}
+            h2 {{
+                color: {text_color};
+                font-size: 35px;
+            }}
+            p {{
+                color: {text_color};
+                font-size: {font_px}px;
+            }}
+            label {{
+                color: white !important;  
+                font-weight: bold;
+                font-size: 16px;
+            }}
+            input {{
+                background-color: #222;   
+                color: white;             
             }}
         </style>
     """, unsafe_allow_html=True)
@@ -62,9 +80,8 @@ option = st.sidebar.selectbox(
 
 # ======== Konten Halaman ========
 if option == "Beranda":
-    st.header("Beranda")
-    st.write("Selamat datang di situs Pemeriksaan Diabetic Retinopathy")
-    st.write("Gunakan sidebar untuk navigasi ke halaman lain.")
+    <h1> Beranda </h1>
+    <p> Selamat datang di situs Pemeriksaan Diabetic Retinopathy </p>
     
     name = st.text_input("Masukkan nama Anda")
     if name:
@@ -74,8 +91,8 @@ if option == "Beranda":
         st.write("Silahkan masuk ke menu Periksa Rentina pada bagian 'Pilih Halaman'")
 
 elif option == "Periksa Retina":
-    st.header("Periksa Retina")
-    st.subheader("Unggah Gambar Retina Anda")
+    <h1> Periksa Retina </h1>
+    <p> Unggah Gambar Retina Anda </p>
     
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
     if uploaded_file is not None:
@@ -86,7 +103,7 @@ elif option == "Periksa Retina":
         st.info("Silakan unggah gambar dengan format .png, .jpg, atau .jpeg.")
 
 elif option == "Hasil Pemeriksaan":
-    st.header("Hasil Pemeriksaan")
+    <h1> Hasil Pemeriksaan </h1>
     
     chart_data = pd.DataFrame(
         np.random.randn(20, 3),
@@ -116,14 +133,15 @@ elif option == "Hasil Pemeriksaan":
     st.pyplot(fig)
 
 else:
-    st.header("Tim Kami")
-    st.write("""
-    ### El STM
+    <h1> Tim Kami </h1>
+    <h2> El STM </h2>
 
+    <p>
     - Anggota 1
     - Anggota 2
     - Anggota 3
-    """)
+    </p>
+
 
 # ======== Footer ========
 st.markdown("---")
