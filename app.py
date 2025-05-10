@@ -89,6 +89,7 @@ def set_theme_and_font(theme, font_px):
     """, unsafe_allow_html=True)
 
 set_theme_and_font(theme_choice, font_size)
+text_color = set_theme_and_font(theme_choice, font_size)
 
 # ======== Judul dan Navigasi ========
 st.title("DRChecker 👁")
