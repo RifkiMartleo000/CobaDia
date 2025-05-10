@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
+import matplotlib.pyplot as plt
 
 # ======== Konfigurasi Halaman ========
 st.set_page_config(
@@ -26,19 +27,17 @@ def set_theme_and_font(theme, font_px):
         text_color = "#000000"
         button_bg_color = "#929292"
         button_text_color = "#ffffff"
-
     elif theme == "Gelap":
         bg_color = "#000000"
         text_color = "#ffffff"
         button_bg_color = "#424242"
         button_text_color = "#000000"
-
     else:  # Default
         bg_color = "#daffb8"
         text_color = "#000000"
         button_bg_color = "#3d8000"
         button_text_color = "#ffffff"
-    
+
     st.markdown(f"""
         <style>
             body {{
@@ -51,31 +50,21 @@ def set_theme_and_font(theme, font_px):
                 color: {text_color};
                 font-size: {font_px}px;
             }}
-            h1 {{
-                color: {text_color};
-                font-size: 40px;
-            }}
-            h2 {{
-                color: {text_color};
-                font-size: 35px;
-            }}
-            p {{
+            h1, h2, h3, h4, h5, h6, p, label {{
                 color: {text_color};
                 font-size: {font_px}px;
             }}
             label {{
-                color: white !important;  
                 font-weight: bold;
-                font-size: 16px;
             }}
             input {{
-                background-color: #222;   
-                color: white;             
+                background-color: #222;
+                color: white;
             }}
             div.stButton > button {{
                 background-color: {button_bg_color};
                 color: {button_text_color};
-                font-size: {font_size}px;
+                font-size: {font_px}px;
                 padding: 10px 20px;
                 border: none;
                 border-radius: 8px;
@@ -84,11 +73,12 @@ def set_theme_and_font(theme, font_px):
             div.stButton > button:hover {{
                 background-color: #45a049;
                 color: #ffffff;
-    }}
+            }}
         </style>
     """, unsafe_allow_html=True)
 
-set_theme_and_font(theme_choice, font_size)
+    return text_color
+
 text_color = set_theme_and_font(theme_choice, font_size)
 
 # ======== Judul dan Navigasi ========
@@ -108,15 +98,14 @@ if option == "Beranda":
     name = st.text_input("Masukkan nama Anda")
     if name:
         st.markdown(f"<p style='color:{text_color}; font-size:{font_size}px;'>Halo, {name}!</p>", unsafe_allow_html=True)
-        
+
     if st.button("Selesai"):
         st.markdown(f"<p style='color:{text_color}; font-size:{font_size}px;'>Silahkan masuk ke menu Periksa Retina pada bagian 'Pilih Halaman'</p>", unsafe_allow_html=True)
-
 
 elif option == "Periksa Retina":
     st.markdown("<h1> Periksa Retina </h1>", unsafe_allow_html=True)
     st.markdown("<p> Unggah Gambar Scan Retina Anda </p>", unsafe_allow_html=True)
-    
+
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
@@ -127,24 +116,15 @@ elif option == "Periksa Retina":
 
 elif option == "Hasil Pemeriksaan":
     st.markdown("<h1> Hasil Pemeriksaan </h1>", unsafe_allow_html=True)
-    
-    chart_data = pd.DataFrame(
-        np.random.randn(20, 3),
-        columns=['A', 'B', 'C']
-    )
-    
-    viz_type = st.radio(
-        "Pilih jenis visualisasi",
-        ["Line Chart", "Bar Chart", "Area Chart"]
-    )
-    
+    chart_data = pd.DataFrame(np.random.randn(20, 3), columns=['A', 'B', 'C'])
+    viz_type = st.radio("Pilih jenis visualisasi", ["Line Chart", "Bar Chart", "Area Chart"])
     if viz_type == "Line Chart":
         st.line_chart(chart_data)
     elif viz_type == "Bar Chart":
         st.bar_chart(chart_data)
     else:
         st.area_chart(chart_data)
-    
+
     st.subheader("Visualisasi Custom dengan Matplotlib")
     fig, ax = plt.subplots()
     ax.scatter(chart_data.index, chart_data['A'], color='red', label='A')
@@ -155,18 +135,17 @@ elif option == "Hasil Pemeriksaan":
     ax.set_ylabel("Nilai")
     st.pyplot(fig)
 
-else:
+elif option == "Tim Kami":
     st.markdown("<h1> Tim Kami </h1>", unsafe_allow_html=True)
     st.markdown("<h2> El STM </h2>", unsafe_allow_html=True)
-
     st.markdown("""
-    ### Tim Kami
-
-    - Anggota 1  
-    - Anggota 2  
-    - Anggota 3
-    """)
+        <ul>
+            <li>Anggota 1</li>
+            <li>Anggota 2</li>
+            <li>Anggota 3</li>
+        </ul>
+    """, unsafe_allow_html=True)
 
 # ======== Footer ========
-st.markdown("---")
-st.markdown("drchecker.web@2025")
+st.markdown(f"<hr style='border-top: 1px solid {text_color};'>", unsafe_allow_html=True)
+st.markdown(f"<p style='color:{text_color};'>drchecker.web@2025</p>", unsafe_allow_html=True)
