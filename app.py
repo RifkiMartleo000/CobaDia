@@ -89,7 +89,6 @@ def set_theme_and_font(theme, font_px):
     """, unsafe_allow_html=True)
 
 set_theme_and_font(theme_choice, font_size)
-text_color = set_theme_and_font(theme_choice, font_size)
 
 # ======== Judul dan Navigasi ========
 st.title("DRChecker 👁")
@@ -168,12 +167,5 @@ else:
     """)
 
 # ======== Footer ========
-st.markdown(f"""
-    <div style='
-        height:2px;
-        width:100%;
-        background-color:{text_color};
-        margin:20px 0;
-    '></div>
-""", unsafe_allow_html=True)
+st.markdown("---")
 st.markdown("drchecker.web@2025")
