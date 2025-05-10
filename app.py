@@ -28,8 +28,8 @@ def set_theme_and_font(theme, font_px):
         bg_color = "#000000"
         text_color = "#ffffff"
     else:  # Default
-        bg_color = "#122448"
-        text_color = "#31333F"
+        bg_color = "#d5ffae"
+        text_color = "#000000"
     
     st.markdown(f"""
         <style>
