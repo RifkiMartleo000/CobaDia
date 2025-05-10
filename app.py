@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # Title and description
-st.title("DRChecker")
+st.title("DRChecker 👁")
 st.markdown("Website Pendeteksi Diabetic Retinopathy")
 
 # Sidebar
