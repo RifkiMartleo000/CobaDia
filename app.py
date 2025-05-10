@@ -24,7 +24,7 @@ option = st.sidebar.selectbox(
 # Main content based on selected page
 if option == "Beranda":
     st.header("Beranda")
-    st.write("Selamat datang di aplikasi web Streamlit sederhana!")
+    st.write("Selamat datang di situs Pemeriksaan Diabetic Retinopathy")
     st.write("Gunakan sidebar untuk navigasi ke halaman lain.")
     
     # Interactive elements
