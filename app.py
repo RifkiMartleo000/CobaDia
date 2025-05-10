@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
+from keras.models import model_from_json
+from keras.preprocessing import image as keras_image
 
 # ======== Konfigurasi Halaman ========
 st.set_page_config(
@@ -115,6 +117,21 @@ elif option == "Periksa Retina":
 
 elif option == "Hasil Pemeriksaan":
     st.markdown("<h1> Hasil Pemeriksaan </h1>", unsafe_allow_html=True)
+
+    if "image" not in st.session_state:
+        st.warning("Silakan unggah gambar terlebih dahulu di halaman 'Periksa Retina'.")
+    else:
+        image = st.session_state["image"]
+        st.image(image, caption="Gambar yang akan diprediksi", use_column_width=True)
+
+        if st.button("🔍 Prediksi"):
+            processed = preprocess_image(image)
+            prediction = model.predict(processed)
+            label_idx = np.argmax(prediction)
+            labels = ["Normal", "Mild", "Moderate", "Severe", "Proliferative DR"]
+            st.success(f"Hasil Prediksi: {labels[label_idx]}")
+            st.markdown(f"Probabilitas: {prediction[0][label_idx]:.2%}")
+
 
 elif option == "Tim Kami":
     st.markdown("<h1> Tim Kami </h1>", unsafe_allow_html=True)
