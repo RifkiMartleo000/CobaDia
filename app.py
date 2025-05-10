@@ -2,8 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-from keras.models import model_from_json
-from keras.preprocessing import image as keras_image
+
 
 
 # ======== Konfigurasi Halaman ========
