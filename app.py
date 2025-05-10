@@ -132,11 +132,11 @@ elif option == "Periksa Retina":
         st.session_state["image"] = image
         
         st.success(f"✅ Gambar '{uploaded_file.name}' berhasil diunggah!")
-        st.image(image, caption=f"Gambar yang Anda unggah: {uploaded_file.name}", use_column_width=True)
+        st.image(image, caption=f"Gambar yang Anda unggah: {uploaded_file.name}", use_container_width=True)
     # Jika tidak ada file yang baru diunggah tapi ada di session_state
     elif st.session_state["image"] is not None:
         st.info(f"Gambar yang telah diunggah sebelumnya: {st.session_state['filename']}")
-        st.image(st.session_state["image"], caption=f"Gambar yang telah diunggah: {st.session_state['filename']}", use_column_width=True)
+        st.image(st.session_state["image"], caption=f"Gambar yang telah diunggah: {st.session_state['filename']}", use_container_width=True)
     else:
         st.info("Silakan unggah gambar dengan format .png, .jpg, atau .jpeg.")
 
@@ -146,7 +146,7 @@ elif option == "Hasil Pemeriksaan":
     if st.session_state["image"] is None:
         st.warning("Silakan unggah gambar terlebih dahulu di halaman 'Periksa Retina'.")
     else:
-        st.image(st.session_state["image"], caption=f"Gambar yang akan diprediksi: {st.session_state['filename']}", use_column_width=True)
+        st.image(st.session_state["image"], caption=f"Gambar yang akan diprediksi: {st.session_state['filename']}", use_container_width=True)
 
         if st.button("🔍 Prediksi"):
             # Placeholder untuk fungsi preprocessing dan model prediksi
