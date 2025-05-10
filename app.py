@@ -85,10 +85,11 @@ if option == "Beranda":
 
     name = st.text_input("Masukkan nama Anda")
     if name:
-        st.write(f"Halo, {name}!")
-
+        st.markdown(f"<p style='color:{text_color}; font-size:{font_size}px;'>Halo, {name}!")
+        
     if st.button("Selesai"):
-        st.write("Silahkan masuk ke menu Periksa Retina pada bagian 'Pilih Halaman'")
+        st.markdown(f"<p style='color:{text_color}; font-size:{font_size}px;'>Silahkan masuk ke menu Periksa Retina pada bagian 'Pilih Halaman'</p>", unsafe_allow_html=True)
+
 
 elif option == "Periksa Retina":
     st.markdown("<h1> Periksa Retina </h1>", unsafe_allow_html=True)
