@@ -114,7 +114,7 @@ if option == "Beranda":
 
 elif option == "Periksa Retina":
     st.markdown("<h1> Periksa Retina </h1>", unsafe_allow_html=True)
-    st.markdown("<p> Unggah Gambar Retina Anda </p>", unsafe_allow_html=True)
+    st.markdown("<p> Unggah Gambar Scan Retina Anda </p>", unsafe_allow_html=True)
     
     uploaded_file = st.file_uploader("Pilih gambar untuk diunggah", type=["png", "jpg", "jpeg"])
     if uploaded_file is not None:
