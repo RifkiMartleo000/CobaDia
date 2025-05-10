@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 import io
+import tensorflow as tf
+from tensorflow.keras.models import model_from_json
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
 # import tensorflow as tf  # Nonaktifkan sementara
 
 # ======== Konfigurasi Halaman ========
