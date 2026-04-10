@@ -14,6 +14,17 @@ import cv2
 from PIL import Image
 import io
 import os
+import json
+from urllib import request, error
+
+DEEPSEEK_API_KEY = ""
+
+CHATBOT_SYSTEM_PROMPT = (
+    "Kamu adalah seorang doktor mata yang ahli dalam mendiagnosis diabetic retinopathy, "
+    "jelaskan dengan bahasa yang mudah dipahami, dan berikan edukasi umum terkait retina "
+    "dan diabetic retinopathy. Selalu ingatkan bahwa ini bukan diagnosis final dan "
+    "pengguna harus konsultasi dokter mata."
+)
 
 
 # ======== Konfigurasi Halaman ========
@@ -30,6 +41,17 @@ for key in ["image", "image_bytes", "filename", "name", "prediction_result", "co
             st.session_state[key] = 16  # Default font size
         else:
             st.session_state[key] = None if key not in ["name", "prediction_result", "confidence"] else ""
+
+for key, default_value in {
+    "chat_messages": [],
+    "chat_input_text": "",
+    "chat_input_key_index": 0,
+    "chatbot_open": False,
+    "deepseek_api_key": "sk-98d3f93cc71c469f9c185a68da30c953",
+    "current_page": "Beranda",
+}.items():
+    if key not in st.session_state:
+        st.session_state[key] = default_value
 
 # ======== Kustomisasi Tema ========
 st.sidebar.header("🎨 Kustomisasi Tampilan")
@@ -133,14 +155,59 @@ text_color = set_theme_and_font(theme_choice, font_size)
 def custom_text(text, tag="p", style=""):
     st.markdown(f"<{tag} style='font-size:{font_size}px; {style}'>{text}</{tag}>", unsafe_allow_html=True)
 
-# ======== Navigasi ========
-st.title("DRChecker 👁")
-custom_text("Website Pendeteksi Diabetic Retinopathy")
 
-option = st.sidebar.selectbox(
-    "Pilih Halaman",
-    ["Beranda", "Periksa Retina", "Hasil Pemeriksaan", "Tim Kami"]
-)
+def render_top_navigation():
+    """Render navigasi halaman horizontal seperti header website."""
+    pages = ["Beranda", "Periksa Retina", "Hasil Pemeriksaan", "Tim Kami"]
+
+    st.markdown(
+        """
+        <style>
+        .top-header-wrap {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 0.9rem 1rem;
+            margin-bottom: 0.6rem;
+            background: linear-gradient(120deg, rgba(1, 123, 10, 0.30), rgba(5, 74, 10, 0.18));
+            backdrop-filter: blur(5px);
+        }
+        .top-header-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.1rem;
+        }
+        .top-header-subtitle {
+            opacity: 0.9;
+            font-size: 0.92rem;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <div class='top-header-wrap'>
+            <div class='top-header-title'>DRChecker 👁</div>
+            <div class='top-header-subtitle'>Website Pendeteksi Diabetic Retinopathy</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    nav_cols = st.columns(len(pages))
+    current_page = st.session_state.get("current_page", "Beranda")
+    for idx, page in enumerate(pages):
+        button_type = "primary" if page == current_page else "secondary"
+        if nav_cols[idx].button(page, key=f"top_nav_{idx}", type=button_type, use_container_width=True):
+            st.session_state["current_page"] = page
+            st.rerun()
+
+    return st.session_state.get("current_page", "Beranda")
+
+
+# ======== Navigasi ========
+option = render_top_navigation()
 
 # ======== Fungsi Prediksi ========
 def predict_class(image_data):
@@ -198,6 +265,175 @@ def predict_class(image_data):
         return "No DR", confidence * 100
     else:
         return "DR", confidence * 100
+
+
+def get_deepseek_api_key():
+    """Ambil API key DeepSeek dari session, environment variable, atau Streamlit secrets."""
+    key_from_session = st.session_state.get("deepseek_api_key", "").strip()
+    if key_from_session:
+        return key_from_session
+
+    key_from_env = os.getenv("DEEPSEEK_API_KEY", "").strip()
+    if key_from_env:
+        return key_from_env
+
+    try:
+        key_from_secrets = st.secrets.get("DEEPSEEK_API_KEY", "").strip()
+        if key_from_secrets:
+            return key_from_secrets
+    except Exception:
+        pass
+
+    return ""
+
+
+def ask_deepseek(messages):
+    """Kirim riwayat chat ke DeepSeek dan kembalikan respons teks."""
+    api_key = get_deepseek_api_key()
+    if not api_key:
+        return "API key DeepSeek belum diatur. Isi DEEPSEEK_API_KEY di app.py, environment variable, atau Streamlit secrets."
+
+    deepseek_messages = [{"role": "system", "content": CHATBOT_SYSTEM_PROMPT}]
+    for msg in messages[-8:]:
+        role = "assistant" if msg.get("role") == "assistant" else "user"
+        deepseek_messages.append({"role": role, "content": msg.get("content", "")})
+
+    payload = {
+        "model": "deepseek-chat",
+        "messages": deepseek_messages,
+        "temperature": 0.4,
+        "max_tokens": 700,
+    }
+
+    url = "https://api.deepseek.com/chat/completions"
+
+    req = request.Request(
+        url=url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}",
+        },
+        method="POST",
+    )
+
+    try:
+        with request.urlopen(req, timeout=30) as resp:
+            result = json.loads(resp.read().decode("utf-8"))
+    except error.HTTPError as http_err:
+        detail = http_err.read().decode("utf-8", errors="ignore")
+        return f"Terjadi error dari DeepSeek API ({http_err.code}). Detail: {detail[:300]}"
+    except Exception as e:
+        return f"Gagal menghubungi DeepSeek API: {str(e)}"
+
+    choices = result.get("choices", [])
+    if not choices:
+        return "DeepSeek tidak mengembalikan jawaban. Coba lagi beberapa saat."
+
+    content = choices[0].get("message", {}).get("content", "").strip()
+    if not content:
+        return "DeepSeek tidak mengembalikan teks jawaban."
+
+    return content
+
+
+def render_floating_chatbot():
+    """Render panel chatbot mengambang di kanan bawah halaman."""
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stVerticalBlock"]:has(> div > #deepseek-chatbot-anchor) {
+            position: fixed;
+            bottom: 1.2rem;
+            right: 1rem;
+            width: min(370px, calc(100vw - 1.5rem));
+            z-index: 9999;
+            background: rgba(10, 30, 17, 0.94);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 14px;
+            padding: 0.8rem;
+            box-shadow: 0 14px 40px rgba(0,0,0,0.28);
+            backdrop-filter: blur(6px);
+        }
+        .chatbot-title {
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            margin-bottom: 0.2rem;
+        }
+        .chatbot-caption {
+            opacity: 0.85;
+            margin-bottom: 0.7rem;
+            font-size: 0.88rem;
+        }
+        @media (max-width: 640px) {
+            div[data-testid="stVerticalBlock"]:has(> div > #deepseek-chatbot-anchor) {
+                right: 0.6rem;
+                bottom: 0.6rem;
+                width: calc(100vw - 1.2rem);
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    with st.container():
+        st.markdown("<div id='deepseek-chatbot-anchor'></div>", unsafe_allow_html=True)
+
+        title_col, button_col = st.columns([5, 1])
+        with title_col:
+            st.markdown("<div class='chatbot-title'>Tanya AIris</div>", unsafe_allow_html=True)
+            st.markdown(
+                "<div class='chatbot-caption'>Tanya seputar retina, hasil, dan langkah lanjutan.</div>",
+                unsafe_allow_html=True,
+            )
+        with button_col:
+            if st.button("✖" if st.session_state["chatbot_open"] else "💬", key="toggle_chatbot"):
+                st.session_state["chatbot_open"] = not st.session_state["chatbot_open"]
+                st.rerun()
+
+        if not st.session_state["chatbot_open"]:
+            return
+
+        chatbox = st.container()
+        with chatbox:
+            if not st.session_state["chat_messages"]:
+                st.info("Mulai percakapan dengan menulis pertanyaan di bawah.")
+            for msg in st.session_state["chat_messages"]:
+                with st.chat_message("assistant" if msg["role"] == "assistant" else "user"):
+                    st.write(msg["content"])
+
+        prompt = st.text_area(
+            "Pesan",
+            key=f"chat_input_text_{st.session_state['chat_input_key_index']}",
+            placeholder="Contoh: Apa arti hasil DR dan apa yang harus saya lakukan?",
+            label_visibility="collapsed",
+            height=90,
+        )
+
+        send_col, clear_col = st.columns([2, 1])
+        with send_col:
+            send_clicked = st.button("Kirim", use_container_width=True, key="send_chat_btn")
+        with clear_col:
+            clear_clicked = st.button("Reset", use_container_width=True, key="reset_chat_btn")
+
+        if clear_clicked:
+            st.session_state["chat_messages"] = []
+            st.session_state["chat_input_key_index"] += 1
+            st.rerun()
+
+        if send_clicked:
+            cleaned_prompt = (prompt or "").strip()
+            if not cleaned_prompt:
+                st.warning("Pesan tidak boleh kosong.")
+                return
+
+            st.session_state["chat_messages"].append({"role": "user", "content": cleaned_prompt})
+            with st.spinner("Asisten sedang mengetik..."):
+                answer = ask_deepseek(st.session_state["chat_messages"])
+            st.session_state["chat_messages"].append({"role": "assistant", "content": answer})
+            st.session_state["chat_input_key_index"] += 1
+            st.rerun()
 
 
 # ======== Halaman Beranda ========
@@ -307,7 +543,7 @@ elif option == "Hasil Pemeriksaan":
 # ======== Halaman Tim Kami ========
 elif option == "Tim Kami":
     st.markdown(f"<h1 style='font-size:{h1_size}px;'>Tim Kami</h1>", unsafe_allow_html=True)
-    st.markdown(f"<h2 style='font-size:{h2_size}px;'>El Skicit-Learn</h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='font-size:{h2_size}px;'>El-PeKa</h2>", unsafe_allow_html=True)
     
     # Menggunakan ukuran font dari pengaturan
     team_html = f"""
@@ -322,10 +558,14 @@ elif option == "Tim Kami":
 # ======== Footer ========
 st.markdown("---")
 st.markdown(f"<hr style='border-top: 1px solid {text_color};'>", unsafe_allow_html=True)
-st.markdown(f"<p style='color:{text_color}; font-size:{font_size-2}px;'>drchecker.web@2025</p>", unsafe_allow_html=True)
+st.markdown(f"<p style='color:{text_color}; font-size:{font_size-2}px;'>drchecker.web@2026</p>", unsafe_allow_html=True)
 
-# Display current font settings
-with st.sidebar.expander("Info Pengaturan Font Saat Ini"):
-    st.write(f"Ukuran Font: {font_size}px")
-    st.write(f"Ukuran Heading 1: {h1_size}px")
-    st.write(f"Ukuran Heading 2: {h2_size}px")
+with st.sidebar.expander("Panduan AIris Chatbot"):
+    st.markdown("""
+    1. klik tombol 💬 untuk membuka panel AIris chatbot di section bawah website DRChecker
+    2. Ketik pertanyaan seputar diabetic retinopathy, hasil pemeriksaan, atau langkah selanjutnya
+    3. Klik tombol "Kirim" untuk mendapatkan jawaban dari asisten virtual yang
+    4. Anda bisa melanjutkan percakapan dengan bertanya lebih lanjut atau klik "Reset" untuk memulai percakapan baru.
+    """)
+
+render_floating_chatbot()
