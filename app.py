@@ -429,7 +429,7 @@ def render_floating_chatbot():
                 return
 
             st.session_state["chat_messages"].append({"role": "user", "content": cleaned_prompt})
-            with st.spinner("Asisten sedang mengetik..."):
+            with st.spinner("AIris sedang mengetik..."):
                 answer = ask_deepseek(st.session_state["chat_messages"])
             st.session_state["chat_messages"].append({"role": "assistant", "content": answer})
             st.session_state["chat_input_key_index"] += 1
