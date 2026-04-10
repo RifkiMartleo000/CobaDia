@@ -450,18 +450,21 @@ if option == "Beranda":
     
     ## Cara Penggunaan
     1. Masukkan nama Anda di bawah ini
-    2. Pilih "Periksa Retina" di menu samping
+    2. Anda akan otomatis diarahkan ke halaman "Periksa Retina"
     3. Unggah gambar retina Anda
     4. Lihat hasil analisis di halaman "Hasil Pemeriksaan"
     """)
     
+    previous_name = st.session_state.get("name", "")
     name = st.text_input("Masukkan nama Anda", value=st.session_state["name"])
     if name:
         st.session_state["name"] = name
         custom_text(f"Halo, {name}!")
 
-    if st.button("Selesai"):
-        custom_text("Silahkan masuk ke menu Periksa Retina pada bagian 'Pilih Halaman'")
+        # Otomatis pindah ke halaman Periksa Retina saat nama baru diinput.
+        if name != previous_name:
+            st.session_state["current_page"] = "Periksa Retina"
+            st.rerun()
 
 # ======== Halaman Periksa Retina ========
 elif option == "Periksa Retina":
