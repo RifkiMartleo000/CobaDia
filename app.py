@@ -47,7 +47,7 @@ for key, default_value in {
     "chat_input_text": "",
     "chat_input_key_index": 0,
     "chatbot_open": False,
-    "deepseek_api_key": "sk-98d3f93cc71c469f9c185a68da30c953",
+    "deepseek_api_key": os.getenv(DEEPSEEK_API_KEY),
     "current_page": "Beranda",
 }.items():
     if key not in st.session_state:
