@@ -17,8 +17,6 @@ import os
 import json
 from urllib import request, error
 
-DEEPSEEK_API_KEY = ""
-
 CHATBOT_SYSTEM_PROMPT = (
     "Kamu adalah seorang doktor mata yang ahli dalam mendiagnosis diabetic retinopathy, "
     "jelaskan dengan bahasa yang mudah dipahami, dan berikan edukasi umum terkait retina "
@@ -47,7 +45,7 @@ for key, default_value in {
     "chat_input_text": "",
     "chat_input_key_index": 0,
     "chatbot_open": False,
-    "deepseek_api_key": os.getenv(DEEPSEEK_API_KEY),
+    "deepseek_api_key": os.getenv("DEEPSEEK_API_KEY"),
     "current_page": "Beranda",
 }.items():
     if key not in st.session_state:
