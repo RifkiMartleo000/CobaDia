@@ -10,6 +10,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import matplotlib.pyplot as plt
 from matplotlib.image import imread
+from dotenv import load_dotenv
 import cv2
 from PIL import Image
 import io
@@ -39,6 +40,8 @@ for key in ["image", "image_bytes", "filename", "name", "prediction_result", "co
             st.session_state[key] = 16  # Default font size
         else:
             st.session_state[key] = None if key not in ["name", "prediction_result", "confidence"] else ""
+
+load_dotenv()
 
 for key, default_value in {
     "chat_messages": [],
