@@ -48,7 +48,7 @@ for key, default_value in {
     "chat_input_text": "",
     "chat_input_key_index": 0,
     "chatbot_open": False,
-    "deepseek_api_key": os.getenv("DEEPSEEK_API_KEY"),
+    "deepseek_api_key": os.getenv("DEEPSEEK_API_KEY") or "",
     "current_page": "Beranda",
 }.items():
     if key not in st.session_state:
@@ -270,16 +270,23 @@ def predict_class(image_data):
 
 def get_deepseek_api_key():
     """Ambil API key DeepSeek dari session, environment variable, atau Streamlit secrets."""
-    key_from_session = st.session_state.get("deepseek_api_key", "").strip()
+    def normalize_key(value):
+        if value is None:
+            return ""
+        if isinstance(value, str):
+            return value.strip()
+        return str(value).strip()
+
+    key_from_session = normalize_key(st.session_state.get("deepseek_api_key", ""))
     if key_from_session:
         return key_from_session
 
-    key_from_env = os.getenv("DEEPSEEK_API_KEY", "").strip()
+    key_from_env = normalize_key(os.getenv("DEEPSEEK_API_KEY", ""))
     if key_from_env:
         return key_from_env
 
     try:
-        key_from_secrets = st.secrets.get("DEEPSEEK_API_KEY", "").strip()
+        key_from_secrets = normalize_key(st.secrets.get("DEEPSEEK_API_KEY", ""))
         if key_from_secrets:
             return key_from_secrets
     except Exception:
