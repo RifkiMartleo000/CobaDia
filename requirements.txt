@@ -7,4 +7,5 @@ pillow
 gdown
 protobuf
 tensorflow
+python-dotenv
 dotenv
